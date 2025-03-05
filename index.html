@@ -17,18 +17,49 @@
             background: url('img/tlo.jpg') no-repeat center center/cover;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff;
+            overflow: hidden;
+            animation: bgAnimation 10s infinite alternate ease-in-out;
         }
+        
+        @keyframes bgAnimation {
+            from { filter: brightness(0.8); }
+            to { filter: brightness(1); }
+        }
+        
         .radio-container {
             text-align: center;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 30px 30px 15px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             max-width: 600px;
             width: 90%;
             position: relative;
             animation: fadeIn 1s ease;
+            border: 3px solid #fff;
         }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .led-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            box-shadow: 0 0 15px 2px red;
+            animation: ledBlink 1s infinite alternate;
+        }
+        
+        @keyframes ledBlink {
+            from { box-shadow: 0 0 15px 2px red; }
+            to { box-shadow: 0 0 15px 2px blue; }
+        }
+        
         .radio-container h1 {
             margin-bottom: 10px;
             font-size: 28px;
@@ -36,11 +67,13 @@
             letter-spacing: 2px;
             color: #f4f4f4;
         }
+        
         .radio-container p {
             margin-bottom: 10px;
             font-size: 16px;
             color: #dcdcdc;
         }
+        
         iframe {
             margin-top: 10px;
             width: 100%;
@@ -48,6 +81,33 @@
             border: 0;
             border-radius: 10px;
         }
+        
+        .controls {
+            margin-top: 10px;
+        }
+        
+        .controls button {
+            background: #ff0000;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        
+        .controls button:hover {
+            background: #cc0000;
+        }
+        
+        .clock {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #fff;
+        }
+        
         footer {
             font-size: 14px;
             color: #bbb;
@@ -57,34 +117,49 @@
             bottom: 10px;
             width: 100%;
         }
+        
         footer a {
             color: #fff;
             text-decoration: none;
             font-weight: bold;
         }
+        
         footer a:hover {
             text-decoration: underline;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
         }
     </style>
 </head>
 <body>
     <div class="radio-container">
+        <div class="led-border"></div>
         <h1>Radio Wojtoteka</h1>
         <p>Posłuchaj naszego radia na żywo!</p>
-        <iframe src="https://fm.wojtoteka.ovh/public/radio/embed?theme=dark" frameborder="0" allowtransparency="true"></iframe>
+        <iframe id="radioPlayer" src="https://fm.wojtoteka.ovh/public/radio/embed?theme=dark" frameborder="0" allowtransparency="true"></iframe>
+        <div class="controls">
+            <button onclick="playRadio()">▶ Play</button>
+            <button onclick="pauseRadio()">⏸ Pause</button>
+        </div>
+        <div class="clock" id="clock"></div>
     </div>
     <footer>
         Stworzone przez <a href="#">Wojtoteka</a>
     </footer>
+    
+    <script>
+        function playRadio() {
+            document.getElementById('radioPlayer').src = "https://fm.wojtoteka.ovh/public/radio/embed?theme=dark";
+        }
+        
+        function pauseRadio() {
+            document.getElementById('radioPlayer').src = "";
+        }
+        
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').textContent = now.toLocaleTimeString('pl-PL');
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
 </html>
