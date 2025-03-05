@@ -17,33 +17,18 @@
             background: url('img/tlo.jpg') no-repeat center center/cover;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff;
-            overflow: hidden;
-            animation: bgAnimation 10s infinite alternate ease-in-out;
         }
-        
-        @keyframes bgAnimation {
-            from { filter: brightness(0.8); }
-            to { filter: brightness(1); }
-        }
-        
         .radio-container {
             text-align: center;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.7);
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             max-width: 600px;
             width: 90%;
             position: relative;
-            animation: fadeIn 1s ease;
-            border: 3px solid #fff;
+            border: 3px solid #007BFF;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        
         .radio-container h1 {
             margin-bottom: 10px;
             font-size: 28px;
@@ -51,39 +36,18 @@
             letter-spacing: 2px;
             color: #f4f4f4;
         }
-        
         .radio-container p {
             margin-bottom: 10px;
             font-size: 16px;
             color: #dcdcdc;
         }
-        
-        .controls {
+        iframe {
             margin-top: 10px;
+            width: 100%;
+            min-height: 150px;
+            border: 0;
+            border-radius: 10px;
         }
-        
-        .controls button {
-            background: #ff0000;
-            border: none;
-            padding: 10px 20px;
-            margin: 5px;
-            font-size: 16px;
-            color: #fff;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        
-        .controls button:hover {
-            background: #cc0000;
-        }
-        
-        .clock {
-            font-size: 18px;
-            margin-top: 10px;
-            color: #fff;
-        }
-        
         footer {
             font-size: 14px;
             color: #bbb;
@@ -93,13 +57,11 @@
             bottom: 10px;
             width: 100%;
         }
-        
         footer a {
             color: #fff;
             text-decoration: none;
             font-weight: bold;
         }
-        
         footer a:hover {
             text-decoration: underline;
         }
@@ -109,44 +71,10 @@
     <div class="radio-container">
         <h1>Radio Wojtoteka</h1>
         <p>Posłuchaj naszego radia na żywo!</p>
-        <audio id="radioPlayer" src="https://fm.wojtoteka.ovh/live" preload="none"></audio>
-        <div class="controls">
-            <button onclick="playRadio()">▶ Play</button>
-            <button onclick="pauseRadio()">⏸ Pause</button>
-            <button onclick="volumeDown()">🔉 -</button>
-            <button onclick="volumeUp()">🔊 +</button>
-        </div>
-        <div class="clock" id="clock"></div>
+        <iframe src="https://fm.wojtoteka.ovh/public/radio/embed?theme=dark" frameborder="0" allowtransparency="true"></iframe>
     </div>
     <footer>
         Stworzone przez <a href="#">Wojtoteka</a>
     </footer>
-    
-    <script>
-        const radio = document.getElementById('radioPlayer');
-
-        function playRadio() {
-            radio.play();
-        }
-        
-        function pauseRadio() {
-            radio.pause();
-        }
-        
-        function volumeUp() {
-            if (radio.volume < 1) radio.volume += 0.1;
-        }
-        
-        function volumeDown() {
-            if (radio.volume > 0) radio.volume -= 0.1;
-        }
-        
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').textContent = now.toLocaleTimeString('pl-PL');
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-    </script>
 </body>
 </html>
