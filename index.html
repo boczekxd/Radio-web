@@ -44,22 +44,6 @@
             to { opacity: 1; transform: scale(1); }
         }
         
-        .led-border {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 15px;
-            box-shadow: 0 0 15px 2px red;
-            animation: ledBlink 1s infinite alternate;
-        }
-        
-        @keyframes ledBlink {
-            from { box-shadow: 0 0 15px 2px red; }
-            to { box-shadow: 0 0 15px 2px blue; }
-        }
-        
         .radio-container h1 {
             margin-bottom: 10px;
             font-size: 28px;
@@ -72,14 +56,6 @@
             margin-bottom: 10px;
             font-size: 16px;
             color: #dcdcdc;
-        }
-        
-        iframe {
-            margin-top: 10px;
-            width: 100%;
-            min-height: 150px;
-            border: 0;
-            border-radius: 10px;
         }
         
         .controls {
@@ -131,13 +107,14 @@
 </head>
 <body>
     <div class="radio-container">
-        <div class="led-border"></div>
         <h1>Radio Wojtoteka</h1>
         <p>Posłuchaj naszego radia na żywo!</p>
-        <iframe id="radioPlayer" src="https://fm.wojtoteka.ovh/public/radio/embed?theme=dark" frameborder="0" allowtransparency="true"></iframe>
+        <audio id="radioPlayer" src="https://fm.wojtoteka.ovh/live" preload="none"></audio>
         <div class="controls">
             <button onclick="playRadio()">▶ Play</button>
             <button onclick="pauseRadio()">⏸ Pause</button>
+            <button onclick="volumeDown()">🔉 -</button>
+            <button onclick="volumeUp()">🔊 +</button>
         </div>
         <div class="clock" id="clock"></div>
     </div>
@@ -146,12 +123,22 @@
     </footer>
     
     <script>
+        const radio = document.getElementById('radioPlayer');
+
         function playRadio() {
-            document.getElementById('radioPlayer').src = "https://fm.wojtoteka.ovh/public/radio/embed?theme=dark";
+            radio.play();
         }
         
         function pauseRadio() {
-            document.getElementById('radioPlayer').src = "";
+            radio.pause();
+        }
+        
+        function volumeUp() {
+            if (radio.volume < 1) radio.volume += 0.1;
+        }
+        
+        function volumeDown() {
+            if (radio.volume > 0) radio.volume -= 0.1;
         }
         
         function updateClock() {
