@@ -84,6 +84,103 @@
                 transform: scale(1);
             }
         }
+        .history-button {
+            margin-top: 15px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.2));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .history-button::before {
+            content: "📜";
+            font-size: 16px;
+        }
+
+        .history-button:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.3));
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3),
+                        0 0 15px rgba(255, 255, 255, 0.1);
+            letter-spacing: 2px;
+        }
+
+        .history-button:active {
+            transform: translateY(1px);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.show {
+            opacity: 1;
+        }
+        .modal-content {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -55%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        .modal.show .modal-content {
+            transform: translate(-50%, -50%);
+            opacity: 1;
+        }
+        .close-button {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+        .close-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+        .history-iframe {
+            width: 100%;
+            height: 70vh;
+            border: none;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
@@ -94,9 +191,48 @@
                 frameborder="0" 
                 allowtransparency="true">
         </iframe>
+        <button class="history-button" onclick="showHistory()">Historia Odtwarzania</button>
     </div>
+    
+    <div id="historyModal" class="modal">
+        <div class="modal-content">
+            <button class="close-button" onclick="hideHistory()">&times;</button>
+            <iframe class="history-iframe" 
+                    src="https://fm.wojtoteka.ovh/public/radio/history?theme=light" 
+                    frameborder="0">
+            </iframe>
+        </div>
+    </div>
+
     <footer>
         Stworzone przez <a href="#">Wojtoteka</a>
     </footer>
+
+    <script>
+        function showHistory() {
+            const modal = document.getElementById('historyModal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            // Trigger reflow
+            modal.offsetHeight;
+            modal.classList.add('show');
+        }
+
+        function hideHistory() {
+            const modal = document.getElementById('historyModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+
+        // Add event listener for ESC key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                hideHistory();
+            }
+        });
+    </script>
 </body>
 </html>
